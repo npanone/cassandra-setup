@@ -19,19 +19,19 @@ echo "Installing OpenSSH Server"
 apt-get install -y openssh-server
 
 echo "Enabling UFW"
-sudo ufw enable
+ufw enable
 echo "Allowing SSH"
-sudo ufw allow ssh
+ufw allow ssh
 echo "Allowing Cassandra Default Ports"
-sudo ufw allow 7000
-sudo ufw allow 7001
-sudo ufw allow 7199
-sudo ufw allow 9042
-sudo ufw allow 9160
-sudo ufw allow 9142
+ufw allow 7000
+ufw allow 7001
+ufw allow 7199
+ufw allow 9042
+ufw allow 9160
+ufw allow 9142
 
 echo "Installing JDK"
-sudo apt-get install default-jdk
+apt-get install -y default-jdk
 
 echo "Adding DataStax Cassandra repo"
 echo "deb http://debian.datastax.com/datastax-ddc 3.9 main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
