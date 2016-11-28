@@ -16,7 +16,6 @@
 * Make the script executable
 * Execute the script with root permissions ;)
 
-
 ## Modifying the Script Variables - Example
 
 Let's assume we're making a three node cluster.  Eth0 on all of our machines is our gateway to the outside world and Eth1 is our internal network.  We're going to call our cluster **Amazing**, and our DataCenter is named **Super** and the rack is called **Bob**.
@@ -56,7 +55,7 @@ CLUSTER_NAME="Amazing"
 DATACENTER_NAME="Super"
 RACK_NAME="Bob"
 ```
-***Node 3**
+**Node 3**
 ```
 SEEDS=10.0.0.2
 LISTEN_ADDRESS=10.0.0.4
@@ -65,3 +64,6 @@ CLUSTER_NAME="Amazing"
 DATACENTER_NAME="Super"
 RACK_NAME="Bob"
 ```
+
+## To Infinity and Beyond...
+When executing the script on a server that'll join an existing cluster, anything with 2 or more servers, you'll need to add the ```auto_bootstrap: false``` line to the cassandra.yaml file.  
