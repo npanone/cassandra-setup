@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-#
 SEEDS=
 LISTEN_ADDRESS=
 RPC_ADDRESS=
@@ -14,10 +13,10 @@ RACK_NAME=
 
 
 echo "Updating... because you should!"
-apt-get update
+apt-get update -y
 
 echo "Installing OpenSSH Server"
-apt-get install openssh-server
+apt-get install -y openssh-server
 
 echo "Enabling UFW"
 sudo ufw enable
@@ -41,8 +40,8 @@ echo "Adding DataStax repo key"
 curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add -
 
 echo "Install Cassandra"
-apt-get update
-apt-get install datastax-ddc
+apt-get update -y
+apt-get install -y datastax-ddc
 
 
 echo "Stop Cassandra and Clear the storage"
@@ -51,10 +50,10 @@ rm -rf /var/lib/cassandra/data/system/*
 
 
 echo "Generating cassandra.yaml"
-mv -f /etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml.original
+mv /etc/cassandra/cassandra.yaml /etc/cassandra/cassandra.yaml.original
 
 cat << EOL | tee /etc/cassandra/cassandra.yaml
-cluster_name: '$CLUSTER_NAME'
+cluster_name: $CLUSTER_NAME
 num_tokens: 256
 allocate_tokens_for_keyspace: KEYSPACE
 hinted_handoff_enabled: true
@@ -174,14 +173,14 @@ gc_warn_threshold_in_ms: 1000
 EOL
 
 echo "Generating cassandra-rackdc.properties"
-mv -f /etc/cassandra/cassandra-topology.properties /etc/cassandra/cassandra-topology.properties.original
-cat << EOL | tee /etc/cassandra/cassandra-topology.properties
+mv /etc/cassandra/cassandra-rackdc.properties /etc/cassandra/cassandra-rackdc.properties.original
+cat << EOL | tee /etc/cassandra/cassandra-rackdc.properties
 dc=$DATACENTER_NAME
 rack=$RACK_NAME
 EOL
 
-echo "removing /etc/cassandra/cassandra-topology.properties"
-rm -f /etc/cassandra/cassandra-topology.properties
+echo "Renaming cassandra-topology.properties => cassandra-topology.properties.original"
+mv /etc/cassandra/cassandra-topology.properties /etc/cassandra/cassandra-topology.properties.original
 
 echo "Starting cassandra"
 service cassandra start
